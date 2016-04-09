@@ -1,0 +1,19 @@
+{
+    "name": "root/teste.app",
+    "authors": [
+        {
+            "name": "Geisson Machado Antunes",
+            "email": "geisonnm@hotmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^2.2"
+    },
+    "autoload": 
+    {
+        "psr-4":{
+
+            "App\\": "App/"
+        }
+    }
+}
