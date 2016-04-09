@@ -6,7 +6,7 @@ $dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
 
 
-echo 'teste de' ;
+echo 'teste de oi' ;
 
 $connDNS = new App\Conexao\ConexaoDNS(getenv("HOST"), getenv("DBNAME"), getenv("ROOTNAME"), getenv("PASSWORD"));
 
