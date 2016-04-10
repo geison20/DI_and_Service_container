@@ -2,23 +2,43 @@
 
 require_once 'vendor/autoload.php';
 
-$dotenv = new Dotenv\Dotenv(__DIR__);
+use App\Conexao\ConexaoDNS; 
+use App\Conexao\ConexaoPDR; 
+use App\Clientes\Cliente; 
+use Pimple\Container;
+
+$container = new Container();
+
+/**
+ * declarando servicos
+ */
+$container['dotenv'] = function(){
+	return new Dotenv\Dotenv(__DIR__);
+};
+$container['conexaoDNS'] = function(){
+	return new ConexaoDNS(getenv("HOST"), getenv("DBNAME"), getenv("ROOTNAME"), getenv("PASSWORD"));
+};
+$container['conexaoPDR'] = function(){
+	return new ConexaoPDR(getenv("HOST"), getenv("DBNAME"), getenv("ROOTNAME"), getenv("PASSWORD"));
+};
+
+$dotenv = $container['dotenv'];
 $dotenv->load();
 
 
-echo 'teste de oi' ;
+$connDNS = $container['conexaoDNS'];
+$connPDR = $container['conexaoPDR'];
 
-$connDNS = new App\Conexao\ConexaoDNS(getenv("HOST"), getenv("DBNAME"), getenv("ROOTNAME"), getenv("PASSWORD"));
+$clientes = new Cliente($connDNS);
+var_dump($clientes);
 
-$connPDR = new App\Conexao\ConexaoPDR(getenv("HOST"), getenv("DBNAME"), getenv("ROOTNAME"), getenv("PASSWORD"));
+// echo "<ul>";
+// 	foreach ($clientes->getAllClients() as $client) 
+// 	{
+// 		// var_dump($client);
+// 		echo "<li>". $client->name ."<li>";
+// 	}
+// echo "</ul>";
 
-$clientes = new App\Clientes\Cliente($connPDR);
 
-echo "<ul>";
-	foreach ($clientes->getAllClients() as $client) 
-	{
-		// var_dump($client);
-		echo "<li>". $client->name ."<li>";
-	}
-echo "</ul>";
 
